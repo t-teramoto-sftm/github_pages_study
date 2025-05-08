@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ファシリテーター抽選</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+    #result {
+      font-size: 24px;
+      margin-top: 20px;
+      color: #333;
+    }
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ファシリテーター抽選ツール</h1>
+  <button onclick="pickFacilitator()">抽選スタート！</button>
+  <div id="result"></div>
+
+  <script>
+    const members = ["佐藤", "寺本", "関口", "亀山", "伊藤","橿林", "谷本", "平居", "澤谷", "藤原"]; // ← メンバーをここに追加！
+
+    function pickFacilitator() {
+      const index = Math.floor(Math.random() * members.length);
+      const name = members[index];
+      document.getElementById("result").textContent = `今日のファシリテーターは… ${name} さん！`;
+    }
+  </script>
+
+</body>
+</html>
