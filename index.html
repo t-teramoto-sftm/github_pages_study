@@ -2,16 +2,17 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ファシリテーター抽選🎲</title>
+  <title>🎄 ファシリテーター 🎅</title>
   <style>
     body {
       font-family: "Segoe UI", "Hiragino Maru Gothic ProN", sans-serif;
       text-align: center;
       padding-top: 100px;
-      background: linear-gradient(135deg, #ffcc70, #ff8177, #b3ffab, #a0c4ff);
+      background: linear-gradient(135deg, #b71c1c, #1b5e20, #c62828, #2e7d32);
       background-size: 400% 400%;
-      animation: gradientMove 10s ease infinite;
+      animation: gradientMove 12s ease infinite;
       overflow: hidden;
+      color: #fff;
     }
 
     @keyframes gradientMove {
@@ -21,35 +22,34 @@
     }
 
     h1 {
-      font-size: 40px;
-      color: #fff;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      font-size: 42px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
       margin-bottom: 40px;
     }
 
     button {
-      font-size: 22px;
-      padding: 15px 40px;
-      background-color: #ff9f1c;
+      font-size: 24px;
+      padding: 16px 45px;
+      background: linear-gradient(135deg, #ff5252, #ffca28);
       color: #fff;
       border: none;
-      border-radius: 50px;
+      border-radius: 60px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
       transition: all 0.3s ease;
     }
 
     button:hover {
-      transform: scale(1.1);
-      background-color: #ffbf69;
+      transform: scale(1.1) rotate(-2deg);
+      background: linear-gradient(135deg, #ff867c, #ffd95b);
     }
 
     #result {
-      font-size: 36px;
+      font-size: 38px;
       margin-top: 50px;
-      color: #fff;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-      transition: all 0.5s ease;
+      text-shadow: 0 0 15px rgba(255,255,255,0.8);
+      z-index: 10;
+      position: relative;
     }
 
     .pop {
@@ -58,8 +58,25 @@
 
     @keyframes pop {
       0% {transform: scale(0);}
-      70% {transform: scale(1.3);}
+      70% {transform: scale(1.4);}
       100% {transform: scale(1);}
+    }
+
+    /* 雪 */
+    .snow {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      font-size: 18px;
+      animation: snowFall linear forwards;
+      opacity: 0.8;
+    }
+
+    @keyframes snowFall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
     }
 
     /* 紙吹雪 */
@@ -67,9 +84,7 @@
       position: fixed;
       width: 10px;
       height: 10px;
-      background-color: red;
       top: -10px;
-      opacity: 0.7;
       animation: fall 3s linear forwards;
     }
 
@@ -79,48 +94,129 @@
         opacity: 0;
       }
     }
+
+    /* メリークリスマス演出 */
+    #christmas {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 90px;
+      font-weight: bold;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      text-shadow:
+        0 0 20px #fff,
+        0 0 40px #ffeb3b,
+        0 0 60px #ff5252;
+    }
+
+    #christmas.show {
+      animation: merryPop 2.5s ease-out forwards;
+    }
+
+    @keyframes merryPop {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      40% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 1;
+      }
+      60% {
+        transform: translate(-50%, -50%) scale(0.95) rotate(-2deg);
+      }
+      80% {
+        transform: translate(-50%, -50%) scale(1.05) rotate(2deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-  <h1>🎯 ファシリテーター抽選ツール 🎯</h1>
-  <button onclick="pickFacilitator()">抽選スタート！</button>
-  <div id="result"><span id="r1"></span><br><span id="r2"></span></div>
+  <h1>🎄 ファシリテーター 🎅✨</h1>
+  <button onclick="pickFacilitator()">🎁 抽選スタート！</button>
+
+  <div id="result">
+    <span id="r1"></span><br>
+    <span id="r2"></span>
+  </div>
+
+  <div id="christmas">🎅 メリークリスマス！ 🎄</div>
 
   <script>
-    const members = ["佐藤ち🪼", "寺本👓", "関口🐾", "亀山🐳", "伊藤🐮","橿林🦦", "谷本🐻‍❄️", "亀井🦖", "西山🦄", "平居🦔", "葉上🐰", "藤原🐦‍🔥"];
+    const members = [
+      "佐藤ち🪼", "寺本👓", "関口🐾", "亀山🐳", "伊藤🐮",
+      "橿林🦦", "谷本🐻‍❄️", "亀井🦖", "西山🦄",
+      "平居🦔", "葉上🐰", "藤原🐦‍🔥"
+    ];
 
     function pickFacilitator() {
-      const resultDiv1 = document.getElementById("r1");
-      const resultDiv = document.getElementById("r2");
+      const r1 = document.getElementById("r1");
+      const r2 = document.getElementById("r2");
+      const merry = document.getElementById("christmas");
+
       let count = 0;
-      resultDiv1.textContent = '次回のファシリテーターは・・・';
+      r1.textContent = "🎅 次回のファシリテーターは・・・";
+      r2.textContent = "";
+      merry.classList.remove("show");
+
       const interval = setInterval(() => {
-        const random = members[Math.floor(Math.random() * members.length)];
-        resultDiv.textContent = random;
+        r2.textContent = members[Math.floor(Math.random() * members.length)];
         count++;
-        if (count > 15) { 
+
+        if (count > 18) {
           clearInterval(interval);
           const name = members[Math.floor(Math.random() * members.length)];
-          resultDiv.textContent = ` ${name} さん`;
-          resultDiv.classList.add("pop");
-          setTimeout(() => resultDiv.classList.remove("pop"), 600);
+          r2.textContent = `🎄 ${name} さん 🎄`;
+          r2.classList.add("pop");
+          setTimeout(() => r2.classList.remove("pop"), 600);
+
           launchConfetti();
+          showMerryChristmas();
         }
       }, 100);
     }
 
+    function showMerryChristmas() {
+      const merry = document.getElementById("christmas");
+      void merry.offsetWidth; // 再アニメーション用
+      merry.classList.add("show");
+    }
+
     function launchConfetti() {
-      for (let i = 0; i < 100; i++) {
+      const colors = ["#d32f2f", "#388e3c", "#fbc02d", "#ffffff"];
+      for (let i = 0; i < 120; i++) {
         const confetti = document.createElement("div");
-        confetti.classList.add("confetti");
+        confetti.className = "confetti";
         confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 60%)`;
-        confetti.style.animationDuration = (2 + Math.random() * 2) + "s";
+        confetti.style.backgroundColor =
+          colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration =
+          (2 + Math.random() * 2) + "s";
         document.body.appendChild(confetti);
         setTimeout(() => confetti.remove(), 3000);
       }
     }
+
+    /* 雪を降らせる */
+    setInterval(() => {
+      const snow = document.createElement("div");
+      snow.className = "snow";
+      snow.textContent = "❄";
+      snow.style.left = Math.random() * 100 + "vw";
+      snow.style.animationDuration =
+        (5 + Math.random() * 5) + "s";
+      document.body.appendChild(snow);
+      setTimeout(() => snow.remove(), 10000);
+    }, 300);
   </script>
 
 </body>
