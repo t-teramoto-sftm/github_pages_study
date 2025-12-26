@@ -2,40 +2,202 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ファシリテーター抽選</title>
+  <title>🎍 ファシリテーター 🧧</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: "Segoe UI", "Hiragino Maru Gothic ProN", sans-serif;
       text-align: center;
-      padding-top: 50px;
+      padding-top: 100px;
+      background: linear-gradient(135deg, #b71c1c, #ffffff, #d4af37);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+      overflow: hidden;
+      color: #b71c1c;
     }
-    #result {
-      font-size: 24px;
-      margin-top: 20px;
-      color: #333;
+
+    @keyframes gradientMove {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
     }
+
+    h1 {
+      font-size: 42px;
+      text-shadow: 0 0 10px rgba(212,175,55,0.8);
+      margin-bottom: 40px;
+    }
+
     button {
-      font-size: 18px;
-      padding: 10px 20px;
+      font-size: 24px;
+      padding: 16px 45px;
+      background: linear-gradient(135deg, #d32f2f, #fbc02d);
+      color: #fff;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    #result {
+      font-size: 38px;
+      margin-top: 50px;
+      text-shadow: 0 0 10px rgba(212,175,55,0.8);
+      position: relative;
+      z-index: 10;
+    }
+
+    .pop {
+      animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+      0% {transform: scale(0);}
+      70% {transform: scale(1.4);}
+      100% {transform: scale(1);}
+    }
+
+    /* 紙吹雪 */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* 大吉演出 */
+    #omikuji {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 110px;
+      font-weight: bold;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      color: #d32f2f;
+      text-shadow:
+        0 0 20px #fff,
+        0 0 40px #fbc02d,
+        0 0 60px #d32f2f;
+    }
+
+    #omikuji.show {
+      animation: omikujiPop 2.5s ease-out forwards;
+    }
+
+    @keyframes omikujiPop {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      40% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 1;
+      }
+      60% {
+        transform: translate(-50%, -50%) scale(0.95) rotate(-2deg);
+      }
+      80% {
+        transform: translate(-50%, -50%) scale(1.05) rotate(2deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <h1>ファシリテーター抽選ツール</h1>
-  <button onclick="pickFacilitator()">抽選スタート！</button>
-  <div id="result"></div>
+  <h1>🎍 ファシリテーター抽選 🧧✨</h1>
+  <button onclick="pickFacilitator()">🎯 抽選スタート！</button>
+
+  <div id="result">
+    <span id="r1"></span><br>
+    <span id="r2"></span>
+  </div>
+
+  <!-- 大吉 -->
+  <div id="omikuji">🎉 大吉！ 🎉</div>
 
   <script>
-    const members = ["佐藤ち", "寺本", "関口", "亀山", "伊藤🐮","橿林", "谷本", "佐藤ゆ", "亀井", "西山", "平居", "葉上", "藤原"]; // ← メンバーをここに追加！
+    const members = [
+      "佐藤ち🪅", "寺本🐙", "関口🐺", "亀山🐳", "伊藤🕊️",
+      "橿林🦦", "谷本🐼", "亀井🦖", "西山🦄",
+      "平居🦔", "葉上🦩", "藤原🐦‍🔥"
+    ];
+
 
     function pickFacilitator() {
-      const index = Math.floor(Math.random() * members.length);
-      const name = members[index];
-      document.getElementById("result").textContent = `今日のファシリテーターは… ${name} さん！`;
+      const r1 = document.getElementById("r1");
+      const r2 = document.getElementById("r2");
+      const omikuji = document.getElementById("omikuji");
+
+      let count = 0;
+      r1.textContent = "🎍 次回のファシリテーターは・・・";
+      r2.textContent = "";
+      omikuji.classList.remove("show");
+
+      const interval = setInterval(() => {
+        r2.textContent = members[Math.floor(Math.random() * members.length)];
+        count++;
+
+        if (count > 18) {
+          clearInterval(interval);
+
+          const name = members[Math.floor(Math.random() * members.length)];
+          r2.textContent = `🧧 ${name} さん 🧧`;
+          r2.classList.add("pop");
+          setTimeout(() => r2.classList.remove("pop"), 600);
+
+          launchConfetti();
+
+          // 0.5秒待つ → 2秒溜め → 大吉
+          setTimeout(() => {
+            setTimeout(() => {
+              showOmikuji();
+            });
+          }, 500);
+        }
+      }, 100);
+    }
+
+    function showOmikuji() {
+      const o = document.getElementById("omikuji");
+      void o.offsetWidth;
+      o.classList.add("show");
+    }
+
+    function launchConfetti() {
+      const colors = ["#d32f2f", "#fbc02d", "#ffffff"];
+      for (let i = 0; i < 120; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor =
+          colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration =
+          (2 + Math.random() * 2) + "s";
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+      }
     }
   </script>
 
 </body>
 </html>
-
