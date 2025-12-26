@@ -2,17 +2,17 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>🎄 ファシリテーター 🎅</title>
+  <title>🎍 ファシリテーター 🧧</title>
   <style>
     body {
       font-family: "Segoe UI", "Hiragino Maru Gothic ProN", sans-serif;
       text-align: center;
       padding-top: 100px;
-      background: linear-gradient(135deg, #b71c1c, #1b5e20, #c62828, #2e7d32);
+      background: linear-gradient(135deg, #b71c1c, #ffffff, #d4af37);
       background-size: 400% 400%;
       animation: gradientMove 12s ease infinite;
       overflow: hidden;
-      color: #fff;
+      color: #b71c1c;
     }
 
     @keyframes gradientMove {
@@ -23,14 +23,14 @@
 
     h1 {
       font-size: 42px;
-      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+      text-shadow: 0 0 10px rgba(212,175,55,0.8);
       margin-bottom: 40px;
     }
 
     button {
       font-size: 24px;
       padding: 16px 45px;
-      background: linear-gradient(135deg, #ff5252, #ffca28);
+      background: linear-gradient(135deg, #d32f2f, #fbc02d);
       color: #fff;
       border: none;
       border-radius: 60px;
@@ -40,16 +40,15 @@
     }
 
     button:hover {
-      transform: scale(1.1) rotate(-2deg);
-      background: linear-gradient(135deg, #ff867c, #ffd95b);
+      transform: scale(1.1);
     }
 
     #result {
       font-size: 38px;
       margin-top: 50px;
-      text-shadow: 0 0 15px rgba(255,255,255,0.8);
-      z-index: 10;
+      text-shadow: 0 0 10px rgba(212,175,55,0.8);
       position: relative;
+      z-index: 10;
     }
 
     .pop {
@@ -60,23 +59,6 @@
       0% {transform: scale(0);}
       70% {transform: scale(1.4);}
       100% {transform: scale(1);}
-    }
-
-    /* 雪 */
-    .snow {
-      position: fixed;
-      top: -10px;
-      color: #fff;
-      font-size: 18px;
-      animation: snowFall linear forwards;
-      opacity: 0.8;
-    }
-
-    @keyframes snowFall {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
     }
 
     /* 紙吹雪 */
@@ -95,34 +77,49 @@
       }
     }
 
-    /* メリークリスマス演出 */
-    #christmas {
+    /* GIF演出 */
+    #animGif {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9998;
+      display: none;
+    }
+
+    #animGif img {
+      width: 260px;
+    }
+
+    /* 大吉演出 */
+    #omikuji {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0);
-      font-size: 90px;
+      font-size: 110px;
       font-weight: bold;
       opacity: 0;
       pointer-events: none;
       z-index: 9999;
+      color: #d32f2f;
       text-shadow:
         0 0 20px #fff,
-        0 0 40px #ffeb3b,
-        0 0 60px #ff5252;
+        0 0 40px #fbc02d,
+        0 0 60px #d32f2f;
     }
 
-    #christmas.show {
-      animation: merryPop 2.5s ease-out forwards;
+    #omikuji.show {
+      animation: omikujiPop 2.5s ease-out forwards;
     }
 
-    @keyframes merryPop {
+    @keyframes omikujiPop {
       0% {
         transform: translate(-50%, -50%) scale(0);
         opacity: 0;
       }
       40% {
-        transform: translate(-50%, -50%) scale(1.3);
+        transform: translate(-50%, -50%) scale(1.4);
         opacity: 1;
       }
       60% {
@@ -141,32 +138,39 @@
 
 <body>
 
-  <h1>🎄 ファシリテーター 🎅✨</h1>
-  <button onclick="pickFacilitator()">🎁 抽選スタート！</button>
+  <h1>🎍 次回のファシリテートは・・・ 🧧✨</h1>
+  <button onclick="pickFacilitator()">🎯 えらぶ</button>
 
   <div id="result">
     <span id="r1"></span><br>
     <span id="r2"></span>
   </div>
 
-  <div id="christmas">🎅 メリークリスマス！ 🎄</div>
+  <!-- GIF -->
+  <div id="animGif">
+    <img src="anim_01.gif" alt="演出GIF">
+  </div>
+
+  <!-- 大吉 -->
+  <div id="omikuji">🎉 大吉！ 🎉</div>
 
   <script>
     const members = [
-      "佐藤ち🪼", "寺本👓", "関口🐾", "亀山🐳", "伊藤🐮",
-      "橿林🦦", "谷本🐻‍❄️", "亀井🦖", "西山🦄",
-      "平居🦔", "葉上🐰", "藤原🐦‍🔥"
+      "佐藤ち🪅", "寺本🐙", "関口🐺", "亀山🐳", "伊藤🕊️",
+      "橿林🦦", "谷本🐼", "亀井🦖", "西山🦄",
+      "平居🦔", "葉上🦩", "藤原🐦‍🔥"
     ];
 
     function pickFacilitator() {
       const r1 = document.getElementById("r1");
       const r2 = document.getElementById("r2");
-      const merry = document.getElementById("christmas");
+      const gif = document.getElementById("animGif");
+      const omikuji = document.getElementById("omikuji");
 
       let count = 0;
-      r1.textContent = "🎅 次回のファシリテーターは・・・";
+      r1.textContent = "🎍 次回のファシリテーターは・・・";
       r2.textContent = "";
-      merry.classList.remove("show");
+      omikuji.classList.remove("show");
 
       const interval = setInterval(() => {
         r2.textContent = members[Math.floor(Math.random() * members.length)];
@@ -174,25 +178,36 @@
 
         if (count > 18) {
           clearInterval(interval);
+
           const name = members[Math.floor(Math.random() * members.length)];
-          r2.textContent = `🎄 ${name} さん 🎄`;
+          r2.textContent = `🧧 ${name} さん 🧧`;
           r2.classList.add("pop");
           setTimeout(() => r2.classList.remove("pop"), 600);
 
           launchConfetti();
-          showMerryChristmas();
+
+          // 0.5秒待つ → GIF表示 → 2秒 → GIF削除 → 大吉
+          setTimeout(() => {
+            gif.style.display = "block";
+
+            setTimeout(() => {
+              gif.style.display = "none";
+              showOmikuji();
+            }, 2000);
+
+          }, 500);
         }
       }, 100);
     }
 
-    function showMerryChristmas() {
-      const merry = document.getElementById("christmas");
-      void merry.offsetWidth; // 再アニメーション用
-      merry.classList.add("show");
+    function showOmikuji() {
+      const o = document.getElementById("omikuji");
+      void o.offsetWidth;
+      o.classList.add("show");
     }
 
     function launchConfetti() {
-      const colors = ["#d32f2f", "#388e3c", "#fbc02d", "#ffffff"];
+      const colors = ["#d32f2f", "#fbc02d", "#ffffff"];
       for (let i = 0; i < 120; i++) {
         const confetti = document.createElement("div");
         confetti.className = "confetti";
@@ -205,18 +220,6 @@
         setTimeout(() => confetti.remove(), 3000);
       }
     }
-
-    /* 雪を降らせる */
-    setInterval(() => {
-      const snow = document.createElement("div");
-      snow.className = "snow";
-      snow.textContent = "❄";
-      snow.style.left = Math.random() * 100 + "vw";
-      snow.style.animationDuration =
-        (5 + Math.random() * 5) + "s";
-      document.body.appendChild(snow);
-      setTimeout(() => snow.remove(), 10000);
-    }, 300);
   </script>
 
 </body>
