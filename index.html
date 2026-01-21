@@ -2,135 +2,100 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>🎍 ファシリテーター 🧧</title>
+  <title>Facilitator Picker</title>
   <style>
-    body {
-      font-family: "Segoe UI", "Hiragino Maru Gothic ProN", sans-serif;
-      text-align: center;
-      padding-top: 100px;
-      background: linear-gradient(135deg, #b71c1c, #ffffff, #d4af37);
-      background-size: 400% 400%;
-      animation: gradientMove 12s ease infinite;
-      overflow: hidden;
-      color: #b71c1c;
+    :root {
+      --bg: #f7f8fa;
+      --text: #222;
+      --subtext: #666;
+      --accent: #3f6df6;
+      --card: #ffffff;
     }
 
-    @keyframes gradientMove {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+    body {
+      font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+      padding-top: 120px;
     }
 
     h1 {
-      font-size: 42px;
-      text-shadow: 0 0 10px rgba(212,175,55,0.8);
+      font-size: 36px;
+      font-weight: 600;
       margin-bottom: 40px;
+      letter-spacing: 0.04em;
     }
 
     button {
-      font-size: 24px;
-      padding: 16px 45px;
-      background: linear-gradient(135deg, #d32f2f, #fbc02d);
+      font-size: 18px;
+      padding: 14px 40px;
+      background: var(--accent);
       color: #fff;
       border: none;
-      border-radius: 60px;
+      border-radius: 999px;
       cursor: pointer;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 20px rgba(63,109,246,0.25);
     }
 
     button:hover {
-      transform: scale(1.1);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(63,109,246,0.35);
     }
 
     #result {
-      font-size: 38px;
-      margin-top: 50px;
-      text-shadow: 0 0 10px rgba(212,175,55,0.8);
-      position: relative;
-      z-index: 10;
+      margin-top: 60px;
+      font-size: 28px;
+    }
+
+    #r1 {
+      color: var(--subtext);
+      font-size: 18px;
+      letter-spacing: 0.05em;
+    }
+
+    #r2 {
+      margin-top: 20px;
+      display: inline-block;
+      font-size: 42px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    #quote {
+      margin-top: 28px;
+      font-size: 15px;
+      color: var(--subtext);
+      font-style: italic;
+      opacity: 0;
+      transition: opacity 0.6s ease;
     }
 
     .pop {
-      animation: pop 0.6s ease;
+      animation: pop 0.5s ease;
     }
 
     @keyframes pop {
-      0% {transform: scale(0);}
-      70% {transform: scale(1.4);}
-      100% {transform: scale(1);}
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
-    /* 紙吹雪 */
+    /* 控えめな紙吹雪 */
     .confetti {
       position: fixed;
-      width: 10px;
-      height: 10px;
+      width: 6px;
+      height: 6px;
       top: -10px;
-      animation: fall 3s linear forwards;
+      background: var(--accent);
+      opacity: 0.6;
+      animation: fall 2.5s linear forwards;
     }
 
     @keyframes fall {
       to {
-        transform: translateY(100vh) rotate(720deg);
+        transform: translateY(100vh);
         opacity: 0;
-      }
-    }
-
-    /* GIF演出 */
-    #animGif {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 9998;
-      display: none;
-    }
-
-    #animGif img {
-      width: 260px;
-    }
-
-    /* 大吉演出 */
-    #omikuji {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      font-size: 110px;
-      font-weight: bold;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 9999;
-      color: #d32f2f;
-      text-shadow:
-        0 0 20px #fff,
-        0 0 40px #fbc02d,
-        0 0 60px #d32f2f;
-    }
-
-    #omikuji.show {
-      animation: omikujiPop 2.5s ease-out forwards;
-    }
-
-    @keyframes omikujiPop {
-      0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0;
-      }
-      40% {
-        transform: translate(-50%, -50%) scale(1.4);
-        opacity: 1;
-      }
-      60% {
-        transform: translate(-50%, -50%) scale(0.95) rotate(-2deg);
-      }
-      80% {
-        transform: translate(-50%, -50%) scale(1.05) rotate(2deg);
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
       }
     }
   </style>
@@ -138,39 +103,38 @@
 
 <body>
 
-  <h1>🎍 次回のファシリテートは・・・ 🧧✨</h1>
-  <button onclick="pickFacilitator()">🎯 えらぶ</button>
+  <h1>Next Facilitator</h1>
+  <button onclick="pickFacilitator()">Select</button>
 
   <div id="result">
-    <span id="r1"></span><br>
-    <span id="r2"></span>
+    <div id="r1"></div>
+    <div id="r2"></div>
+    <div id="quote"></div>
   </div>
-
-  <!-- GIF -->
-  <div id="animGif">
-    <img src="anim_01.gif" alt="演出GIF">
-  </div>
-
-  <!-- 大吉 -->
-  <div id="omikuji">🎉 大吉！ 🎉</div>
 
   <script>
     const members = [
-      "佐藤ち🪅", "寺本🐙", "関口🐺", "亀山🐳", "伊藤🕊️",
-      "橿林🦦", "谷本🐼", "亀井🦖", "西山🦄",
-      "平居🦔", "葉上🦩", "藤原🐦‍🔥"
+      "佐藤","寺本","関口","亀山","伊藤","岡本",
+      "谷本","亀井","西山","平居","葉上","藤原"
+    ];
+
+    const fallbackQuotes = [
+      "Done is better than perfect.",
+      "Focus on what matters.",
+      "Small steps lead to big results.",
+      "Simplicity is the ultimate sophistication."
     ];
 
     function pickFacilitator() {
       const r1 = document.getElementById("r1");
       const r2 = document.getElementById("r2");
-      const gif = document.getElementById("animGif");
-      const omikuji = document.getElementById("omikuji");
+      const quote = document.getElementById("quote");
 
       let count = 0;
-      r1.textContent = "🎍 次回のファシリテーターは・・・";
+      r1.textContent = "Selecting next facilitator";
       r2.textContent = "";
-      omikuji.classList.remove("show");
+      quote.style.opacity = 0;
+      quote.textContent = "";
 
       const interval = setInterval(() => {
         r2.textContent = members[Math.floor(Math.random() * members.length)];
@@ -180,44 +144,40 @@
           clearInterval(interval);
 
           const name = members[Math.floor(Math.random() * members.length)];
-          r2.textContent = `🧧 ${name} さん 🧧`;
+          r2.textContent = name;
           r2.classList.add("pop");
-          setTimeout(() => r2.classList.remove("pop"), 600);
+          setTimeout(() => r2.classList.remove("pop"), 500);
 
           launchConfetti();
-
-          // 0.5秒待つ → GIF表示 → 2秒 → GIF削除 → 大吉
-          setTimeout(() => {
-            gif.style.display = "block";
-
-            setTimeout(() => {
-              gif.style.display = "none";
-              showOmikuji();
-            }, 2000);
-
-          }, 500);
+          loadQuote();
         }
       }, 100);
     }
 
-    function showOmikuji() {
-      const o = document.getElementById("omikuji");
-      void o.offsetWidth;
-      o.classList.add("show");
+    async function loadQuote() {
+      const quote = document.getElementById("quote");
+
+      try {
+        const res = await fetch("https://zenquotes.io/api/today");
+        const data = await res.json();
+        quote.textContent = `"${data[0].q}" — ${data[0].a}`;
+      } catch (e) {
+        const q = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
+        quote.textContent = `"${q}"`;
+      }
+
+      setTimeout(() => quote.style.opacity = 1, 300);
     }
 
     function launchConfetti() {
-      const colors = ["#d32f2f", "#fbc02d", "#ffffff"];
-      for (let i = 0; i < 120; i++) {
+      for (let i = 0; i < 60; i++) {
         const confetti = document.createElement("div");
         confetti.className = "confetti";
         confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.backgroundColor =
-          colors[Math.floor(Math.random() * colors.length)];
         confetti.style.animationDuration =
-          (2 + Math.random() * 2) + "s";
+          (2 + Math.random()) + "s";
         document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 3000);
+        setTimeout(() => confetti.remove(), 2500);
       }
     }
   </script>
