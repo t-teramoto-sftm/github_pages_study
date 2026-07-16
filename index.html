@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <title>Facilitator Picker</title>
@@ -36,12 +37,12 @@
       border-radius: 999px;
       cursor: pointer;
       transition: all 0.25s ease;
-      box-shadow: 0 8px 20px rgba(63,109,246,0.25);
+      box-shadow: 0 8px 20px rgba(63, 109, 246, 0.25);
     }
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(63,109,246,0.35);
+      box-shadow: 0 12px 28px rgba(63, 109, 246, 0.35);
     }
 
     #result {
@@ -77,8 +78,15 @@
     }
 
     @keyframes pop {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     /* 控えめな紙吹雪 */
@@ -114,8 +122,9 @@
 
   <script>
     const members = [
-      "佐藤","寺本","関口","亀山","伊藤","岡本",
-      "谷本","亀井","西山","平居","葉上","藤原"
+      "佐藤", "寺本", "関口", "亀山", "伊藤", "岡本",
+      "谷本", "亀井", "西山", "平居", "葉上", "藤原",
+      "久野", "遠藤", "鈴木", "野口", "藤本"
     ];
 
     const fallbackQuotes = [
@@ -183,4 +192,5 @@
   </script>
 
 </body>
+
 </html>
